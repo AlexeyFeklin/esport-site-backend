@@ -26,7 +26,7 @@ import multer from 'multer';
 import Tournament from './models/Tournament.js';
 mongoose
   .connect(
-    'mongodb+srv://admin:wwwwww@cluster0.uxnwspm.mongodb.net/eSport?retryWrites=true&w=majority',
+    process.env.MONGODB_URI,
   )
   .then(() => {
     console.log('DataBase connected!');
@@ -209,7 +209,7 @@ app.get('/teams/tournament/:tournamentId', TeamController.getTeamsByTournament);
 app.post('/teams/addMember', checkAuth, TeamController.addMemberToTeam);
 app.post('/teams/removeMember', checkAuth, TeamController.removeMemberFromTeam);
 
-app.listen(4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
   if (err) {
     console.log(err);
   }
