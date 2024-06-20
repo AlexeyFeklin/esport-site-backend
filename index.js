@@ -26,7 +26,7 @@ import multer from 'multer';
 import Tournament from './models/Tournament.js';
 mongoose
   .connect(
-    process.env.MONGODB_URI,
+    process.env.MONGO_URl,
   )
   .then(() => {
     console.log('DataBase connected!');
