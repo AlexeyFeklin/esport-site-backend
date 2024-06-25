@@ -64,6 +64,11 @@ export const removeMemberFromTeam = async (req, res) => {
     team.members = team.members.filter((member) => member != memberId);
     await team.save();
 
+    if (team.members.length === 0) {
+      await Team.findByIdAndDelete(team._id);
+      return res.status(200).json({ message: 'Member removed from team successfully and team deleted' });
+    }
+
     res.status(200).json({ message: 'Member removed from team successfully', team });
   } catch (error) {
     res.status(500).json({ error: 'Failed to remove member from team' });
