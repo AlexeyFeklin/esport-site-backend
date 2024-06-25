@@ -29,6 +29,7 @@ export const getAll = async (req, res) => {
     }
 
     const tournaments = await TournamentModel.find(query)
+      .sort({ date: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
