@@ -35,17 +35,23 @@ export const getTeamsByTournament = async (req, res) => {
 export const addMemberToTeam = async (req, res) => {
   try {
     const { teamId, memberId } = req.body;
+const team = await Team.findById(teamId);
 
-    const team = await Team.findById(teamId);
+if (!team) {
+  return res.status(404).json({ error: 'Team not found' });
+}
 
-    if (!team) {
-      return res.status(404).json({ error: 'Team not found' });
-    }
+// Check if the member is already in the team
+if (team.members.includes(memberId)) {
+  return res.status(400).json({ error: 'Member already exists in the team' });
+}
 
-    team.members.push(memberId);
-    await team.save();
+// Add the member to the team
+team.members.push(memberId);
+await team.save();
 
-    res.status(200).json({ message: 'Member added to team successfully', team });
+res.status(200).json({ message: 'Member added to team successfully', team });
+
   } catch (error) {
     res.status(500).json({ error: 'Failed to add member to team' });
   }
