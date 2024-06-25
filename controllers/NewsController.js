@@ -13,6 +13,7 @@ export const getAllNews = async (req, res) => {
     }
 
     const news = await NewsModel.find(query)
+      .sort({ date: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
